@@ -10,8 +10,10 @@ class MyFontStyle {
       GoogleFonts.raleway(fontSize: 13.4, fontWeight: FontWeight.w400);
   static TextStyle font13BoldUnderline =
       GoogleFonts.raleway(fontSize: 13.4, fontWeight: FontWeight.w700);
-  static TextStyle font11RegularUnderline =
-      GoogleFonts.raleway(fontSize: 11.5, fontWeight: FontWeight.w400);
+  static TextStyle font11RegularUnderline = GoogleFonts.raleway(
+      fontSize: 11.5,
+      fontWeight: FontWeight.w400,
+      decoration: TextDecoration.underline);
   static TextStyle font45Regular =
       GoogleFonts.raleway(fontSize: 45.2, fontWeight: FontWeight.w400);
   static TextStyle font45Bold =
@@ -21,7 +23,7 @@ class MyFontStyle {
   static TextStyle font38Regular =
       GoogleFonts.raleway(fontSize: 38.4, fontWeight: FontWeight.w700);
   static TextStyle font9RegularAcc =
-      GoogleFonts.raleway(fontSize: 9.3, fontWeight: FontWeight.w400);
+      GoogleFonts.raleway(fontSize: 18, fontWeight: FontWeight.w400);
   static TextStyle font9BlodAcc =
       GoogleFonts.raleway(fontSize: 9.3, fontWeight: FontWeight.w700);
 }

@@ -7,5 +7,6 @@ class MyColors {
   static const Color txt2Color = Color(0xffff1bb3);
   static const Color backgroundColor = Color(0xff0a0322);
   static const Color whiteColor = Color(0xffffffff);
+
   static const Color fontColor = Color(0xffdcd7d7);
 }
