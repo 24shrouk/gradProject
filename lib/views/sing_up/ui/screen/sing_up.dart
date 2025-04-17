@@ -85,7 +85,7 @@ class SignUp extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                Navigator.pushNamed(context, Routes.login);
+                Navigator.pushNamed(context, Routes.home);
               },
               child: Text(
                 'Log In',

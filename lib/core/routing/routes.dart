@@ -4,4 +4,5 @@ class Routes {
   static const String home = '/home';
   static const String singUp = '/singUp';
   static const String getStarted = '/getStarted';
+  static const String transcriped = '/transcripted';
 }

@@ -20,9 +20,9 @@ class MyFontStyle {
       GoogleFonts.raleway(fontSize: 45.2, fontWeight: FontWeight.w700);
   static TextStyle font38Bold =
       GoogleFonts.raleway(fontSize: 38.4, fontWeight: FontWeight.w400);
-  static TextStyle font38Regular =
-      GoogleFonts.raleway(fontSize: 38.4, fontWeight: FontWeight.w700);
-  static TextStyle font9RegularAcc =
+  static TextStyle font28Regular =
+      GoogleFonts.raleway(fontSize: 28, fontWeight: FontWeight.w700);
+  static TextStyle font18RegularAcc =
       GoogleFonts.raleway(fontSize: 18, fontWeight: FontWeight.w400);
   static TextStyle font9BlodAcc =
       GoogleFonts.raleway(fontSize: 9.3, fontWeight: FontWeight.w700);

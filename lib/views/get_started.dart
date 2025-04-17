@@ -26,7 +26,7 @@ class GetStartedScreen extends StatelessWidget {
                 ),
                 horizontalSpace(14),
                 Text(
-                  "Viox",
+                  "Spokify",
                   style: MyFontStyle.font13RegularAcc
                       .copyWith(color: MyColors.whiteColor),
                 ),
@@ -55,7 +55,7 @@ class GetStartedScreen extends StatelessWidget {
               Navigator.pushNamed(context, Routes.login);
             },
             child: Text(
-              'SING IN',
+              'SIGN IN',
               style: MyFontStyle.font12RegularBtn
                   .copyWith(color: MyColors.whiteColor),
             ),
