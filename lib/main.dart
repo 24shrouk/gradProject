@@ -20,7 +20,7 @@ class GraduationProject extends StatelessWidget {
       minTextAdapt: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.getStarted,
+        initialRoute: Routes.notePage,
         onGenerateRoute: routing.generateRoute,
       ),
     );

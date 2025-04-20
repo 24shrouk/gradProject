@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/views/get_started.dart';
+import 'package:gradprj/views/home/ui/note_page.dart';
 import 'package:gradprj/views/home/ui/screens/home.dart';
 import 'package:gradprj/views/login/ui/screen/login.dart';
 import 'package:gradprj/views/sing_up/ui/screen/sing_up.dart';
@@ -17,6 +18,8 @@ class Routing {
         return MaterialPageRoute(builder: (context) => const SignUp());
       case Routes.home:
         return MaterialPageRoute(builder: (context) => const HomeScreen());
+      case Routes.notePage:
+        return MaterialPageRoute(builder: (context) => NotePage());
 
       default:
         return MaterialPageRoute(builder: (context) => const NoRouteScreen());
