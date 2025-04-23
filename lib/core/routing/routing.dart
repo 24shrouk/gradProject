@@ -3,6 +3,8 @@ import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/views/get_started.dart';
 import 'package:gradprj/views/home/ui/note_page.dart';
 import 'package:gradprj/views/home/ui/screens/home.dart';
+import 'package:gradprj/views/home/ui/screens/recording_screen.dart';
+import 'package:gradprj/views/home/ui/screens/user_account.dart';
 import 'package:gradprj/views/login/ui/screen/login.dart';
 import 'package:gradprj/views/sing_up/ui/screen/sing_up.dart';
 
@@ -19,7 +21,15 @@ class Routing {
       case Routes.home:
         return MaterialPageRoute(builder: (context) => const HomeScreen());
       case Routes.notePage:
-        return MaterialPageRoute(builder: (context) => NotePage());
+        return MaterialPageRoute(builder: (context) => const NotePage());
+      case Routes.recording:
+        return MaterialPageRoute(builder: (context) => const RecordingScreen());
+      case Routes.userProfile:
+        return MaterialPageRoute(
+            builder: (context) => ProfilePage(
+                  isDarkMode: true,
+                  onToggleTheme: (value) {},
+                ));
 
       default:
         return MaterialPageRoute(builder: (context) => const NoRouteScreen());

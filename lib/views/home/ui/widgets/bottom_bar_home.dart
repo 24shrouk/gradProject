@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gradprj/core/helpers/spacing.dart';
+import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/core/theming/my_colors.dart';
 import 'package:gradprj/core/theming/my_fonts.dart';
+import 'package:gradprj/views/home/ui/screens/recording_screen.dart';
 import 'package:gradprj/views/home/ui/screens/transcripted.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:record/record.dart';
@@ -130,7 +132,9 @@ class _BottomBarHomeState extends State<BottomBarHome> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-              onPressed: isRecording ? stopRecording : startRecording,
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.recording);
+              },
               icon: Icon(
                 isRecording ? Icons.stop : Icons.mic,
                 color: MyColors.button1Color,
