@@ -8,4 +8,6 @@ class Routes {
   static const String notePage = '/notePage';
   static const String userProfile = '/userProfile';
   static const String recording = '/recording';
+  static const String forget_password = '/forgetPassword';
+  static const String about = '/About';
 }

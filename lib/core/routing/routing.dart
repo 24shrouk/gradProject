@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/views/get_started.dart';
 import 'package:gradprj/views/home/ui/note_page.dart';
+import 'package:gradprj/views/home/ui/screens/about.dart';
 import 'package:gradprj/views/home/ui/screens/home.dart';
 import 'package:gradprj/views/home/ui/screens/recording_screen.dart';
 import 'package:gradprj/views/home/ui/screens/user_account.dart';
+import 'package:gradprj/views/login/ui/screen/forget_password.dart';
 import 'package:gradprj/views/login/ui/screen/login.dart';
 import 'package:gradprj/views/sing_up/ui/screen/sing_up.dart';
 
@@ -24,12 +26,16 @@ class Routing {
         return MaterialPageRoute(builder: (context) => const NotePage());
       case Routes.recording:
         return MaterialPageRoute(builder: (context) => const RecordingScreen());
-      case Routes.userProfile:
+      case Routes.forget_password:
         return MaterialPageRoute(
-            builder: (context) => ProfilePage(
-                  isDarkMode: true,
-                  onToggleTheme: (value) {},
-                ));
+            builder: (context) => const ResetPasswordPage());
+      case Routes.notePage:
+        return MaterialPageRoute(builder: (context) => NotePage());
+      case Routes.userProfile:
+        return MaterialPageRoute(builder: (context) => ProfilePage());
+
+      case Routes.about:
+        return MaterialPageRoute(builder: (context) => about());
 
       default:
         return MaterialPageRoute(builder: (context) => const NoRouteScreen());

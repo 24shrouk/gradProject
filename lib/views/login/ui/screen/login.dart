@@ -75,12 +75,17 @@ class Login extends StatelessWidget {
               ),
             ),
             verticalSpace(20),
-            Text(
-              "Forgot Password?",
-              style: MyFontStyle.font11RegularUnderline.copyWith(
-                  color: MyColors.whiteColor,
-                  decoration: TextDecoration.underline,
-                  decorationColor: MyColors.whiteColor),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.forget_password);
+              },
+              child: Text(
+                "Forgot Password?",
+                style: MyFontStyle.font11RegularUnderline.copyWith(
+                    color: MyColors.whiteColor,
+                    decoration: TextDecoration.underline,
+                    decorationColor: MyColors.whiteColor),
+              ),
             ),
             verticalSpace(60),
             Row(

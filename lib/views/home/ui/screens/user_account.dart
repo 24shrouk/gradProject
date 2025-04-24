@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/core/theming/my_colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  final bool isDarkMode;
-  final ValueChanged<bool> onToggleTheme;
-
-  const ProfilePage({
-    super.key,
-    required this.isDarkMode,
-    required this.onToggleTheme,
-  });
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -17,140 +11,199 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool showEditFields = false;
+  bool isDark = true;
 
-  final TextEditingController nameController = TextEditingController(
-    text: "Jonathan Patterson",
-  );
-  final TextEditingController emailController = TextEditingController(
-    text: "hello@reallygreatsite.com",
-  );
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController =
+      TextEditingController(text: "Shrouk Ahmed");
+  final TextEditingController emailController =
+      TextEditingController(text: "Shrouk_Ahmed9@gmail.com");
+  final TextEditingController passwordController =
+      TextEditingController(text: "s1234567");
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Profile'), leading: const BackButton()),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                const CircleAvatar(
-                  radius: 40,
-                backgroundColor: MyColors.button1Color,
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: GestureDetector(
+    final ThemeData lightTheme = ThemeData.light().copyWith(
+      scaffoldBackgroundColor: Colors.white,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
+      textTheme: ThemeData.light().textTheme.apply(
+            bodyColor: MyColors.backgroundColor,
+            displayColor: MyColors.backgroundColor,
+          ),
+    );
+
+    final ThemeData darkTheme = ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: MyColors.backgroundColor,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: MyColors.backgroundColor,
+        foregroundColor: Colors.white,
+      ),
+      textTheme: ThemeData.dark().textTheme.apply(
+            bodyColor: Colors.white,
+            displayColor: Colors.white,
+          ),
+    );
+
+    return Theme(
+      data: isDark ? darkTheme : lightTheme,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Profile',
+            style: TextStyle(fontSize: 20),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Image.asset(
+              "assets/images/arrow.png",
+              width: 35,
+              height: 35,
+            ),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      const CircleAvatar(
+                        child: Text(
+                          "S",
+                          style: TextStyle(fontSize: 50, color: Colors.white),
+                        ),
+                        radius: 40,
+                        backgroundColor: MyColors.button1Color,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Change profile picture')),
+                            );
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            padding: const EdgeInsets.all(4),
+                            child: const Icon(Icons.edit,
+                                size: 16, color: MyColors.button1Color),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(nameController.text,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(emailController.text),
+                  const SizedBox(height: 20),
+
+                  /// Edit Profile section
+                  ListTile(
+                    leading:
+                        const Icon(Icons.edit, color: MyColors.button1Color),
+                    title: const Text('Edit Profile'),
+                    trailing: Icon(
+                      showEditFields
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                    ),
                     onTap: () {
-                      // هنا ممكن تفتحي Dialog لاختيار صورة
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Change profile picture')),
-                      );
+                      setState(() {
+                        showEditFields = !showEditFields;
+                      });
                     },
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
-                      padding: const EdgeInsets.all(4),
-                      child: const Icon(
-                        Icons.edit,
-                        size: 16,
-                        color: Colors.white,
-                      ),
+                  ),
+                  if (showEditFields) ...[
+                    TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(labelText: 'Name'),
+                    ),
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(labelText: 'Email'),
+                    ),
+                    TextField(
+                      controller: passwordController,
+                      decoration: const InputDecoration(labelText: 'Password'),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Profile updated')),
+                        );
+                        setState(() {});
+                      },
+                      child: const Text("Save Changes"),
+                    ),
+                  ],
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.settings,
+                        color: MyColors.button1Color),
+                    title: const Text('Mode'),
+                    subtitle: const Text('Dark & Light'),
+                    trailing: Switch(
+                      value: isDark,
+                      onChanged: (value) {
+                        setState(() {
+                          isDark = value;
+                        });
+                      },
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              nameController.text,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Text(emailController.text),
-            const SizedBox(height: 20),
-
-            /// Edit Profile section
-            ListTile(
-              leading: const Icon(Icons.edit, color: Colors.green),
-              title: const Text('Edit Profile'),
-              trailing: Icon(
-                showEditFields
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-              ),
-              onTap: () {
-                setState(() {
-                  showEditFields = !showEditFields;
-                });
-              },
-            ),
-            if (showEditFields) ...[
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-              ),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-              ),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  // هنا ممكن تحفظ التعديلات
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Profile updated')),
-                  );
-                  setState(() {});
-                },
-                child: const Text("Save Changes"),
-              ),
-            ],
-
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Mode'),
-              subtitle: const Text('Dark & Light'),
-              trailing: Switch(
-                value: widget.isDarkMode,
-                onChanged: widget.onToggleTheme,
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.help,
+                      color: MyColors.button1Color,
+                    ),
+                    title: const Text('About'),
+                    trailing: IconButton(
+                      icon: Icon(Icons.arrow_forward_ios),
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.about);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  TextButton.icon(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.login);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Signed out')),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.logout,
+                      color: MyColors.button1Color,
+                      size: 25,
+                    ),
+                    label: const Text('Sign Out',
+                        style: TextStyle(
+                            color: MyColors.button1Color, fontSize: 20)),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
             ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.help, color: Colors.purple),
-              title: const Text('About'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-            ),
-
-            const Spacer(),
-            Center(
-              child: TextButton.icon(
-                onPressed: () {
-                  // Sign out action
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('Signed out')));
-                },
-                icon: const Icon(Icons.logout, color: Colors.red),
-                label: const Text(
-                  'Sign Out',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-          ],
+          ),
         ),
       ),
     );
