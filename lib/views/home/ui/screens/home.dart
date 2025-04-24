@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gradprj/core/helpers/spacing.dart';
 import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/core/theming/my_colors.dart';
-import 'package:gradprj/core/theming/my_fonts.dart';
 import 'package:gradprj/views/home/ui/widgets/app_bar_home.dart';
 import 'package:gradprj/views/home/ui/widgets/bottom_bar_home.dart';
+import 'package:gradprj/views/home/ui/widgets/note_container.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,63 +22,13 @@ class HomeScreen extends StatelessWidget {
               child: AppBarHome(),
             ),
             verticalSpace(100),
-            // Padding(
-            //   padding: const EdgeInsets.all(12.0),
-            //   child: Container(
-            //     width: double.infinity,
-            //     height: 100,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(30),
-            //       gradient: const LinearGradient(
-            //         colors: <Color>[
-            //           MyColors.button1Color,
-            //           MyColors.button2Color,
-            //         ],
-            //       ),
-            //     ),
-            //     child: Padding(
-            //       padding: const EdgeInsets.only(top: 34, left: 16, right: 16),
-            //       child: Text(
-            //         "AI-Driven tool for Smarter Workflows",
-            //         style: MyFontStyle.font18RegularAcc
-            //             .copyWith(color: MyColors.whiteColor),
-            //         textAlign: TextAlign.center,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(40),
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.notePage); // غيري الاسم
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40),
-                      gradient: const LinearGradient(
-                        colors: <Color>[
-                          MyColors.button1Color,
-                          MyColors.button2Color,
-                        ],
-                      ),
-                    ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 30, left: 14, right: 14),
-                      child: Text(
-                        "AI-Driven tool for Smarter Workflows",
-                        style: MyFontStyle.font18RegularAcc
-                            .copyWith(color: MyColors.whiteColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                )),
-
+            NoteContainer(
+              height: 150,
+              onTap: () {
+                Navigator.pushNamed(context, Routes.notePage);
+              },
+              text: "AI-Driven tool for Smarter Workflows",
+            ),
             verticalSpace(50),
             const BottomBarHome(),
           ],

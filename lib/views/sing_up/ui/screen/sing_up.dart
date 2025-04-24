@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gradprj/core/helpers/app_bar.dart';
+import 'package:gradprj/core/helpers/custom_raised_gradientbutton.dart';
 import 'package:gradprj/core/helpers/spacing.dart';
 import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/core/theming/my_colors.dart';
 import 'package:gradprj/core/theming/my_fonts.dart';
-import 'package:gradprj/core/widgets/button.dart';
 import 'package:gradprj/core/widgets/text_form_field.dart';
+import 'package:gradprj/views/sing_up/ui/widgets/alreadyhaveanaccount.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -20,14 +22,7 @@ class SignUp extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                "assets/images/arrow.png",
-                width: 35,
-                height: 35,
-              ),
-            ),
+            AppBarOfSpokify(),
             verticalSpace(80),
             Text(
               "Create an ",
@@ -76,42 +71,14 @@ class SignUp extends StatelessWidget {
               ),
             ),
             verticalSpace(30),
-            RaisedGradientButton(
-              width: 350,
-              gradient: const LinearGradient(
-                colors: <Color>[
-                  MyColors.button1Color,
-                  MyColors.button2Color,
-                ],
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.home);
-              },
-              child: Text(
-                'Log In',
-                style: MyFontStyle.font12RegularBtn
-                    .copyWith(color: MyColors.whiteColor),
-              ),
-            ),
+            CustomRaisedGradientButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.home);
+                },
+                width: 350,
+                text: "SIGN UP"),
             verticalSpace(60),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Already have an account?   ",
-                  style: MyFontStyle.font13RegularAcc.copyWith(
-                    color: MyColors.fontColor,
-                  ),
-                ),
-                Text(
-                  "Sign in",
-                  style: MyFontStyle.font13BoldUnderline.copyWith(
-                      color: MyColors.txt2Color,
-                      decoration: TextDecoration.underline,
-                      decorationColor: MyColors.txt2Color),
-                ),
-              ],
-            )
+            AlreadyHaveAnAccount()
           ],
         ),
       )),

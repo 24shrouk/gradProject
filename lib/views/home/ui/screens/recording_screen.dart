@@ -1,11 +1,12 @@
 // import 'dart:async';
-// import 'dart:io';
 // import 'package:audio_waveforms/audio_waveforms.dart';
 // import 'package:flutter/material.dart';
-// import 'package:dio/dio.dart';
+// import 'package:gradprj/core/helpers/app_bar.dart';
+// import 'package:gradprj/core/helpers/custom_raised_gradientbutton.dart';
+// import 'package:gradprj/core/helpers/spacing.dart';
 // import 'package:gradprj/core/theming/my_colors.dart';
 // import 'package:gradprj/core/theming/my_fonts.dart';
-// import 'package:http_parser/http_parser.dart';
+// import 'package:gradprj/views/home/ui/widgets/note_container.dart';
 // import 'package:record/record.dart';
 // import 'package:path_provider/path_provider.dart';
 
@@ -16,7 +17,8 @@
 //   State<RecordingScreen> createState() => _RecordingScreenState();
 // }
 
-// class _RecordingScreenState extends State<RecordingScreen> {
+// class _RecordingScreenState extends State<RecordingScreen>
+//     with SingleTickerProviderStateMixin {
 //   final record = AudioRecorder();
 //   late RecorderController recorderController;
 //   bool isRecording = false;
@@ -24,11 +26,31 @@
 //   int recordingSeconds = 0;
 //   Timer? _timer;
 
+//   String enhancedText = '';
+//   List<String> extractedTasks = [];
+//   bool showEnhancedPage = false;
+//   bool showTasks = false;
+
+//   late AnimationController _controller;
+//   late Animation<double> _fadeAnimation;
+
 //   @override
 //   void initState() {
 //     super.initState();
 //     recorderController = RecorderController();
+//     _controller = AnimationController(
+//       duration: const Duration(milliseconds: 600),
+//       vsync: this,
+//     );
+//     _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 //     startRecording();
+//   }
+
+//   @override
+//   void dispose() {
+//     stopTimer();
+//     _controller.dispose();
+//     super.dispose();
 //   }
 
 //   Future<void> startRecording() async {
@@ -47,7 +69,23 @@
 //     await recorderController.stop();
 //     stopTimer();
 //     setState(() => isRecording = false);
-//     await uploadAudio();
+
+//     // mock response
+//     setState(() {
+//       enhancedText =
+//           "He woke up late and did not have breakfast. Then he went to work without preparing anything and forgot to send the important email to his manager. Also, he didn't talk with his team or ask for help when he needed it. At the end of the day, he felt tired but didn’t finish all his tasks.";
+//       extractedTasks = [
+//         "Wake up earlier",
+//         "Eat breakfast",
+//         "Prepare before work",
+//         "Send emails on time",
+//         "Communicate with team",
+//         "Ask for help",
+//         "Manage time better",
+//       ];
+//       showEnhancedPage = true;
+//       _controller.forward(from: 0);
+//     });
 //   }
 
 //   void startTimer() {
@@ -60,40 +98,143 @@
 //   }
 
 //   void stopTimer() {
-//     if (_timer != null && _timer!.isActive) {
-//       _timer!.cancel();
-//     }
+//     _timer?.cancel();
 //     _timer = null;
-//   }
-
-//   Future<void> uploadAudio() async {
-//     if (filePath.isEmpty || !File(filePath).existsSync()) return;
-
-//     try {
-//       FormData formData = FormData.fromMap({
-//         "file": await MultipartFile.fromFile(
-//           filePath,
-//           contentType: MediaType('audio', 'mpeg'),
-//         ),
-//       });
-
-//       await Dio().post(
-//         "http://10.0.2.2:8000/transcribe-and-summarize/",
-//         data: formData,
-//         options: Options(headers: {"Content-Type": "multipart/form-data"}),
-//       );
-//     } catch (e) {
-//       print("❌ Upload error: $e");
-//     }
-//   }
-
-//   void dispose() {
-//     stopTimer();
-//     super.dispose();
 //   }
 
 //   @override
 //   Widget build(BuildContext context) {
+//     if (showEnhancedPage) {
+//       return Scaffold(
+//         backgroundColor: MyColors.backgroundColor,
+//         body: Padding(
+//           padding: const EdgeInsets.all(16),
+//           child: SingleChildScrollView(
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 AppBarOfSpokify(),
+//                 verticalSpace(70),
+//                 const Text(' Original Text:',
+//                     style: TextStyle(
+//                         fontSize: 18,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.white)),
+//                 verticalSpace(10),
+//                 const NoteContainer(
+//                   text: "Some original recorded text",
+//                 ),
+//                 verticalSpace(30),
+//                 FadeTransition(
+//                   opacity: _fadeAnimation,
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       const Text(' Enhanced Text:',
+//                           style: TextStyle(
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold,
+//                               color: Colors.white)),
+//                       const SizedBox(height: 10),
+//                       NoteContainer(
+//                         text: enhancedText,
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 verticalSpace(30),
+//                 if (extractedTasks.isNotEmpty)
+//                   Column(
+//                     children: [
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                         children: [
+//                           // ElevatedButton(
+//                           //   style: ElevatedButton.styleFrom(
+//                           //     backgroundColor: MyColors.button2Color,
+//                           //     shape: RoundedRectangleBorder(
+//                           //       borderRadius: BorderRadius.circular(12),
+//                           //     ),
+//                           //   ),
+//                           //   onPressed: () {
+//                           //     setState(() {
+//                           //       showTasks = !showTasks;
+//                           //     });
+//                           //   },
+//                           //   child: Text(
+//                           //     showTasks ? 'Extracted Tasks' : 'Extracted Tasks',
+//                           //     style: const TextStyle(color: Colors.white),
+//                           //   ),
+//                           // ),
+//                           CustomRaisedGradientButton(
+//                               onPressed: () {
+//                                 setState(() {
+//                                   showTasks = !showTasks;
+//                                 });
+//                               },
+//                               text: 'Extracted Tasks'),
+//                           CustomRaisedGradientButton(
+//                               onPressed: () {}, text: 'Summarization'),
+//                         ],
+//                       ),
+//                       const SizedBox(height: 20),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                         children: [
+//                           CustomRaisedGradientButton(
+//                               onPressed: () {}, text: 'Add to trello'),
+//                           horizontalSpace(10),
+//                           CustomRaisedGradientButton(
+//                               onPressed: () {}, text: 'Detect Topics'),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 verticalSpace(20),
+//                 if (showTasks) ...[
+//                   const Text(' Extracted Tasks:',
+//                       style: TextStyle(
+//                           fontSize: 18,
+//                           fontWeight: FontWeight.bold,
+//                           color: Colors.white)),
+//                   verticalSpace(16),
+//                   ...extractedTasks.map(
+//                     (task) => Card(
+//                       elevation: 2,
+//                       margin: const EdgeInsets.symmetric(vertical: 8),
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(12),
+//                       ),
+//                       child: Container(
+//                         decoration: BoxDecoration(
+//                           gradient: const LinearGradient(
+//                             colors: <Color>[
+//                               MyColors.button1Color,
+//                               MyColors.button2Color,
+//                             ],
+//                           ),
+//                           borderRadius: BorderRadius.circular(12),
+//                         ),
+//                         child: ListTile(
+//                           leading: const Icon(Icons.check_circle_outline,
+//                               color: Colors.white),
+//                           title: Text(
+//                             task,
+//                             style: const TextStyle(
+//                                 fontSize: 16, color: Colors.white),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ]
+//               ],
+//             ),
+//           ),
+//         ),
+//       );
+//     }
+
 //     String timerText =
 //         "${(recordingSeconds ~/ 60).toString().padLeft(2, '0')}:${(recordingSeconds % 60).toString().padLeft(2, '0')}";
 
@@ -110,10 +251,7 @@
 //               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
 //               decoration: BoxDecoration(
 //                 gradient: const LinearGradient(
-//                   colors: <Color>[
-//                     MyColors.button1Color,
-//                     MyColors.button2Color,
-//                   ],
+//                   colors: [MyColors.button1Color, MyColors.button2Color],
 //                 ),
 //                 borderRadius: BorderRadius.circular(30),
 //               ),
@@ -154,18 +292,16 @@
 //             ),
 //             const SizedBox(height: 30),
 //             GestureDetector(
-//               onTap: () => stopRecording().then((_) => Navigator.pop(context)),
+//               onTap: () => stopRecording(),
 //               child: Container(
 //                 width: 70,
 //                 height: 70,
 //                 decoration: const BoxDecoration(
-//                     gradient: const LinearGradient(
-//                       colors: <Color>[
-//                         MyColors.button1Color,
-//                         MyColors.button2Color,
-//                       ],
-//                     ),
-//                     shape: BoxShape.circle),
+//                   gradient: LinearGradient(
+//                     colors: [MyColors.button1Color, MyColors.button2Color],
+//                   ),
+//                   shape: BoxShape.circle,
+//                 ),
 //                 child: const Center(
 //                     child: Icon(Icons.stop, color: Colors.white, size: 35)),
 //               ),
@@ -177,12 +313,12 @@
 //   }
 // }
 
-// باقي الـ imports كما هي بدون تغيير
-
 import 'dart:async';
 
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
+import 'package:gradprj/core/helpers/custom_raised_gradientbutton.dart';
+import 'package:gradprj/core/helpers/spacing.dart';
 
 import 'package:gradprj/core/theming/my_colors.dart';
 import 'package:gradprj/core/theming/my_fonts.dart';
@@ -267,6 +403,15 @@ class _RecordingScreenState extends State<RecordingScreen>
       _controller.forward(from: 0);
     });
   }
+
+  // void startTimer() {
+  //   recordingSeconds = 0;
+  //   timer = Timer.periodic(const Duration(seconds: 1), () {
+  //     if (mounted) {
+  //       setState(() => recordingSeconds++);
+  //     }
+  //   });
+  // }
 
   void startTimer() {
     recordingSeconds = 0;
@@ -358,99 +503,71 @@ class _RecordingScreenState extends State<RecordingScreen>
                   ),
                 ),
                 const SizedBox(height: 30),
-                // if (extractedTasks.isNotEmpty)
-                //   ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: MyColors.button2Color,
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(12),
-                //       ),
-                //     ),
-                //     onPressed: () {
-                //       setState(() {
-                //         showTasks = !showTasks;
-                //       });
-                //     },
-                //     child: Text(
-                //       showTasks ? 'Extracted Tasks' : ' Extracted Tasks',
-                //       style: const TextStyle(color: Colors.white),
-                //     ),
-                //   ),
                 if (extractedTasks.isNotEmpty)
                   Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: MyColors.button2Color,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                showTasks = !showTasks;
-                              });
-                            },
-                            child: Text(
-                              showTasks ? 'Extracted Tasks' : 'Extracted Tasks',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: MyColors.button2Color,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () {
-                              // Another action here if needed
-                            },
-                            child: const Text(
-                              'Summarization',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          // ElevatedButton(
+                          //   style: ElevatedButton.styleFrom(
+                          //     backgroundColor: MyColors.button2Color,
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(12),
+                          //     ),
+                          //   ),
+                          //   onPressed: () {
+                          //     setState(() {
+                          //       showTasks = !showTasks;
+                          //     });
+                          //   },
+                          //   child: Text(
+                          //     showTasks ? 'Extracted Tasks' : 'Extracted Tasks',
+                          //     style: const TextStyle(color: Colors.white),
+                          //   ),
+                          // ),
+                          // ElevatedButton(
+                          //   style: ElevatedButton.styleFrom(
+                          //     backgroundColor: MyColors.button2Color,
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(12),
+                          //     ),
+                          //   ),
+                          //   onPressed: () {
+                          //     // Another action here if needed
+                          //   },
+                          //   child: const Text(
+                          //     'Summarization',
+                          //     style: TextStyle(color: Colors.white),
+                          //   ),
+                          // ),
+
+                          CustomRaisedGradientButton(
+                              width: 130,
+                              onPressed: () {
+                                setState(() {
+                                  showTasks = !showTasks;
+                                });
+                              },
+                              text: 'Extracted Tasks'),
+                          CustomRaisedGradientButton(
+                              width: 130,
+                              onPressed: () {},
+                              text: 'Summarization'),
                         ],
                       ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: MyColors.button2Color,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () {
-                              // Another action here if needed
-                            },
-                            child: const Text(
-                              'Add to trello',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: MyColors.button2Color,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () {
-                              // Another action here if needed
-                            },
-                            child: const Text(
-                              'Detect Topics',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          CustomRaisedGradientButton(
+                              width: 130,
+                              onPressed: () {},
+                              text: 'Add to trello'),
+                          CustomRaisedGradientButton(
+                              width: 130,
+                              onPressed: () {},
+                              text: 'Detect Topics'),
                         ],
                       ),
                     ],

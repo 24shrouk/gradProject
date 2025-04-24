@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gradprj/core/helpers/app_bar.dart';
+import 'package:gradprj/core/helpers/custom_raised_gradientbutton.dart';
 import 'package:gradprj/core/helpers/spacing.dart';
 import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/core/theming/my_colors.dart';
 import 'package:gradprj/core/theming/my_fonts.dart';
-import 'package:gradprj/core/widgets/button.dart';
 import 'package:gradprj/core/widgets/text_form_field.dart';
+import 'package:gradprj/views/login/ui/widgets/do_not_have_an_account.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -20,14 +22,7 @@ class Login extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                "assets/images/arrow.png",
-                width: 35,
-                height: 35,
-              ),
-            ),
+            const AppBarOfSpokify(),
             verticalSpace(150),
             Text(
               "Welcome",
@@ -57,23 +52,12 @@ class Login extends StatelessWidget {
               ),
             ),
             verticalSpace(30),
-            RaisedGradientButton(
-              width: 350,
-              gradient: const LinearGradient(
-                colors: <Color>[
-                  MyColors.button1Color,
-                  MyColors.button2Color,
-                ],
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.singUp);
-              },
-              child: Text(
-                'LOG IN',
-                style: MyFontStyle.font12RegularBtn
-                    .copyWith(color: MyColors.whiteColor),
-              ),
-            ),
+            CustomRaisedGradientButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.singUp);
+                },
+                width: 350,
+                text: 'LOG IN'),
             verticalSpace(20),
             TextButton(
               onPressed: () {
@@ -88,24 +72,7 @@ class Login extends StatelessWidget {
               ),
             ),
             verticalSpace(60),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Don't have an account?   ",
-                  style: MyFontStyle.font13RegularAcc.copyWith(
-                    color: MyColors.fontColor,
-                  ),
-                ),
-                Text(
-                  "Sign up",
-                  style: MyFontStyle.font13BoldUnderline.copyWith(
-                      color: MyColors.txt2Color,
-                      decoration: TextDecoration.underline,
-                      decorationColor: MyColors.txt2Color),
-                ),
-              ],
-            )
+            const DonotHaveAnAccountRow()
           ],
         ),
       )),

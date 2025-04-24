@@ -10,6 +10,8 @@ class MyFontStyle {
       GoogleFonts.raleway(fontSize: 13.4, fontWeight: FontWeight.w400);
   static TextStyle font17 =
       GoogleFonts.raleway(fontSize: 17, fontWeight: FontWeight.w400);
+  static TextStyle font20 =
+      GoogleFonts.raleway(fontSize: 20, fontWeight: FontWeight.w400);
   static TextStyle font13BoldUnderline =
       GoogleFonts.raleway(fontSize: 13.4, fontWeight: FontWeight.w700);
   static TextStyle font11RegularUnderline = GoogleFonts.raleway(

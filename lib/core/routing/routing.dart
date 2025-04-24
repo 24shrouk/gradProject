@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradprj/core/routing/routes.dart';
-import 'package:gradprj/views/get_started.dart';
-import 'package:gradprj/views/home/ui/note_page.dart';
+import 'package:gradprj/views/getStarted/screens/get_started.dart';
+import 'package:gradprj/views/home/ui/screens/note_page.dart';
 import 'package:gradprj/views/home/ui/screens/about.dart';
 import 'package:gradprj/views/home/ui/screens/home.dart';
 import 'package:gradprj/views/home/ui/screens/recording_screen.dart';

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gradprj/core/helpers/app_bar.dart';
+import 'package:gradprj/core/helpers/spacing.dart';
 import 'package:gradprj/core/routing/routes.dart';
 import 'package:gradprj/core/theming/my_colors.dart';
+import 'package:gradprj/views/home/ui/widgets/imageCircleAvatar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -49,22 +52,6 @@ class _ProfilePageState extends State<ProfilePage> {
     return Theme(
       data: isDark ? darkTheme : lightTheme,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Profile',
-            style: TextStyle(fontSize: 20),
-          ),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Image.asset(
-              "assets/images/arrow.png",
-              width: 35,
-              height: 35,
-            ),
-          ),
-        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: SingleChildScrollView(
@@ -72,39 +59,11 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.only(top: 12),
               child: Column(
                 children: [
-                  Stack(
-                    children: [
-                      const CircleAvatar(
-                        child: Text(
-                          "S",
-                          style: TextStyle(fontSize: 50, color: Colors.white),
-                        ),
-                        radius: 40,
-                        backgroundColor: MyColors.button1Color,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: GestureDetector(
-                          onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Change profile picture')),
-                            );
-                          },
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            padding: const EdgeInsets.all(4),
-                            child: const Icon(Icons.edit,
-                                size: 16, color: MyColors.button1Color),
-                          ),
-                        ),
-                      ),
-                    ],
+                  const AppBarOfSpokify(
+                    text: "Profile",
                   ),
+                  verticalSpace(80),
+                  ImageCircleAvatar(),
                   const SizedBox(height: 10),
                   Text(nameController.text,
                       style: const TextStyle(
