@@ -149,8 +149,17 @@ async def summarize_latest():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error summarizing text: {e}")
-
+    
 # Endpoint to enhance the latest transcribed text
+async def enhance_text(text: str):
+    """Function to improve grammar and clarity of transcribed text."""
+    try:
+        response = model.generate_content(f"Improve the following text by correcting grammar, enhancing clarity, and making it more natural-sounding. "
+            "Do not add new content or remove important meaning. Just return the improved version without any comments, notes, or explanation:\n\n"
+            f"{text}")
+        return response.text  # Extract enhanced text
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error enhancing text: {e}")
 @app.get("/enhance/")
 async def enhance_latest():
     """Enhances the grammar and clarity of the latest transcribed text."""
@@ -226,3 +235,24 @@ async def speaking_analysis(file: UploadFile = File(...)):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error during speaking analysis: {e}")
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
