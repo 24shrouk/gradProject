@@ -55,7 +55,7 @@ import 'package:http_parser/http_parser.dart';
 class AudioService {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://10.0.2.2:8000', // صح كده للمحاكي Android
+      baseUrl: 'http://192.168.1.12', // صح كده للمحاكي Android //192.168.1.12
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
       headers: {

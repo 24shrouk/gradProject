@@ -171,7 +171,9 @@ class _NotePageState extends State<NotePage> {
               ],
             ),
           ),
-          CustomDraggableScrollableSheet(),
+          CustomDraggableScrollableSheet(
+            transcriptionText: content,
+          ),
         ],
       ),
     );
