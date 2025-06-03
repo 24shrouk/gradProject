@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradprj/core/routing/routes.dart';
-import 'package:gradprj/cubit/transcription_cubit.dart';
+
 import 'package:gradprj/views/getStarted/screens/get_started.dart';
-import 'package:gradprj/views/home/ui/screens/note_page.dart';
 import 'package:gradprj/views/home/ui/screens/about.dart';
 import 'package:gradprj/views/home/ui/screens/home.dart';
 import 'package:gradprj/views/home/ui/screens/recording_screen.dart';
@@ -23,16 +22,16 @@ class Routing {
         return MaterialPageRoute(builder: (context) => const SignUp());
       case Routes.home:
         return MaterialPageRoute(builder: (context) => const HomeScreen());
-      case Routes.notePage:
-        return MaterialPageRoute(builder: (context) => const NotePage());
+      // case Routes.notePage:
+      //   return MaterialPageRoute(builder: (context) => const NotePage());
       case Routes.recording:
         return MaterialPageRoute(builder: (context) => const RecordingScreen());
 
       case Routes.forget_password:
         return MaterialPageRoute(
             builder: (context) => const ResetPasswordPage());
-      case Routes.notePage:
-        return MaterialPageRoute(builder: (context) => NotePage());
+      // case Routes.notePage:
+      //   return MaterialPageRoute(builder: (context) => NotePage());
       case Routes.userProfile:
         return MaterialPageRoute(builder: (context) => ProfilePage());
 

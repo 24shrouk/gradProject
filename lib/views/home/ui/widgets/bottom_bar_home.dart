@@ -163,12 +163,17 @@
 //   }
 // }
 
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradprj/core/helpers/spacing.dart';
 import 'package:gradprj/core/theming/my_colors.dart';
 import 'package:gradprj/cubit/transcription_cubit.dart';
 import 'package:gradprj/views/home/ui/screens/recording_screen.dart';
+import 'package:http_parser/http_parser.dart';
 
 class BottomBarHome extends StatefulWidget {
   const BottomBarHome({super.key});
@@ -178,6 +183,69 @@ class BottomBarHome extends StatefulWidget {
 }
 
 class _BottomBarHomeState extends State<BottomBarHome> {
+  bool _isUploading = false;
+  String transcription = "";
+
+  /// دالة لاختيار ملف صوت من الجهاز ثم إرساله إلى FastAPI
+  Future<void> _pickAndUploadAudio() async {
+    // 1. افتح مستعرض الملفات لاختيار ملف صوتي
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['wav', 'mp3', 'ogg', 'webm', 'opus'],
+    );
+
+    if (result == null) {
+      // المستخدم ألغى الاختيار
+      return;
+    }
+
+    // 2. احصل على المسار (path) للملف الذي اختاره المستخدم
+    String? filePath = result.files.single.path;
+    if (filePath == null) return;
+
+    File audioFile = File(filePath);
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      // 3. إعداد dio لرفع الملف عبر POST
+      String url = 'http://192.168.1.12/transcribe/'; // عدلي حسب عنوان السيرفر
+      Dio dio = Dio();
+
+      FormData formData = FormData.fromMap({
+        // المفتاح 'file' يجب أن يطابق اسم المعامل في الـ FastAPI endpoint
+        'file': await MultipartFile.fromFile(
+          audioFile.path,
+          filename: audioFile.path.split(Platform.pathSeparator).last,
+          contentType: MediaType('audio', audioFile.path.split('.').last),
+        ),
+      });
+
+      Response response = await dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+      setState(() {
+        transcription = response.data["transcription"];
+      });
+
+      print("✅ Transcription: $transcription");
+    } catch (e) {
+      debugPrint('Error uploading file: $e');
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -209,15 +277,39 @@ class _BottomBarHomeState extends State<BottomBarHome> {
             horizontalSpace(20),
 
             /// ⬆ زر رفع ملف (للتطوير لاحقًا)
-            IconButton(
-              onPressed: () {
-                // هنا ممكن تضيفي خاصية رفع ملف لاحقًا
-              },
-              icon: const Icon(
-                Icons.file_upload_outlined,
-                color: MyColors.button1Color,
-                size: 45,
-              ),
+            // IconButton(
+            //   onPressed: () {
+            //     // هنا ممكن تضيفي خاصية رفع ملف لاحقًا
+            //   },
+            //   icon: const Icon(
+            //     Icons.file_upload_outlined,
+            //     color: MyColors.button1Color,
+            //     size: 45,
+            //   ),
+            // ),
+
+            /// ⬆ زر رفع ملف صوت
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                IconButton(
+                  onPressed: _isUploading ? null : _pickAndUploadAudio,
+                  icon: const Icon(
+                    Icons.file_upload_outlined,
+                    color: MyColors.button1Color,
+                    size: 45,
+                  ),
+                ),
+                if (_isUploading)
+                  const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: MyColors.button1Color,
+                      strokeWidth: 2,
+                    ),
+                  ),
+              ],
             ),
           ],
         ),
